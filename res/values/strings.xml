@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Yamba</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="input_msg">Input your tweet</string>
+    <string name="post_button">Post update</string>
+    <string name="msg_hint">Enter your 140 chars tweet</string>
+
+</resources>
