@@ -8,8 +8,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnKeyListener;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,12 +21,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.EditText;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.app.ProgressDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
 
-public class MainActivity extends Activity  {
+public class MainActivity extends Activity implements OnSharedPreferenceChangeListener {
 
+	private YambaClient yambaClient = null;
+	private SharedPreferences prefs = null;
+	
+	
     @Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		 getMenuInflater().inflate(R.menu.main, menu);
@@ -49,12 +57,36 @@ public class MainActivity extends Activity  {
         EditText text = (EditText)findViewById(R.id.editText);
         text.addTextChangedListener(watcher);
         
+        Log.d("Yamba", "MainActivity - onCreate.");
+        
         // set proxy to make it working for emulator within local network
         System.setProperty("http.proxyHost",  "proxy-prc.intel.com");
         System.setProperty("http.proxyPort",  "911");
     }
-    
-    // handle the click on "Post update"
+
+	
+	
+    @Override
+	protected void onPause() {
+    	PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);
+		super.onPause();
+	}
+
+
+	@Override
+	protected void onResume() {
+		PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
+		super.onResume();
+	}
+
+	@Override
+	public void onSharedPreferenceChanged(SharedPreferences arg0, String arg1) {
+		yambaClient = null;
+        //Log.d("Yamba", "username is "+prefs.getString("username", ""));
+        //Log.d("Yamba", "password is "+prefs.getString("password", ""));
+	}
+
+	// handle the click on "Post update"
     public void postTwitterUpdate(View v)
     {
     	Toast.makeText(this, "we are upating...", Toast.LENGTH_LONG).show();
@@ -68,17 +100,34 @@ public class MainActivity extends Activity  {
     	
     	@Override
         protected String doInBackground(String...post) {
-        	YambaClient client = new YambaClient("student", "password");
+        	YambaClient client = getYambaClient();
         	try {
     			client.postStatus(post[0]);
     		} catch (YambaClientException e) {
     			// TODO Auto-generated catch block
-    			e.printStackTrace();
+    			Log.d("Yamba", "exception happens on postStatus: "+e.getMessage());
+    			//e.printStackTrace();
+    			if(e.getMessage().equalsIgnoreCase("Unauthorized")){
+    				Log.d("Yamba", "failed to post due to incorrect user/password !");
+    				startActivity(new Intent(MainActivity.this, PrefsActivity.class)); 
+    				return "FAILED: incorrect username or password";
+    			}
     		}
 			return "OK";
         }
 
-    	@Override
+    	private YambaClient getYambaClient() {
+    		if(yambaClient == null){
+    			prefs = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+    			String username = prefs.getString("username", "");
+    	        String password = prefs.getString("password", "");
+    			yambaClient = new YambaClient(username, password);
+    			// not check return here. always success.
+    		}
+			return yambaClient;
+		}
+
+		@Override
         protected void onProgressUpdate(Integer... progress) {
         	
         }
@@ -124,5 +173,6 @@ public class MainActivity extends Activity  {
 			//text.setText("Typing.."+s); 
 		}    	
     }
+
 
 }

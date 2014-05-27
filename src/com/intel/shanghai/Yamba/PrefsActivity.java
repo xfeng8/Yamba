@@ -9,7 +9,6 @@ public class PrefsActivity extends PreferenceActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		addPreferencesFromResource(R.xml.pref);		
+		addPreferencesFromResource(R.xml.pref);	
 	}
-
 }
