@@ -13,12 +13,12 @@
 
     <EditText
         android:id="@+id/editText"
-        android:layout_width="322dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:ems="10"
         android:hint="@string/msg_hint"
-        android:inputType="text"
+        android:inputType="textMultiLine"
         android:maxEms="15"
         android:maxLength="140"
         android:singleLine="false" >
