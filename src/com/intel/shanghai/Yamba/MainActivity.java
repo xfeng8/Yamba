@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Toast;
 import android.widget.EditText;
 import android.os.AsyncTask;
+import android.app.ProgressDialog;
 
 public class MainActivity extends Activity {
 
@@ -32,9 +33,11 @@ public class MainActivity extends Activity {
     	poster.execute(et.getText().toString());
     } 
     
-    private class PostTweetAsync extends AsyncTask<String, Integer, Long> {
-        protected Long doInBackground(String...post) {
-
+    private class PostTweetAsync extends AsyncTask<String, Integer, String> {
+    	private ProgressDialog progress;
+    	
+    	@Override
+        protected String doInBackground(String...post) {
         	YambaClient client = new YambaClient("student", "password");
         	try {
     			client.postStatus(post[0]);
@@ -42,13 +45,23 @@ public class MainActivity extends Activity {
     			// TODO Auto-generated catch block
     			e.printStackTrace();
     		}
-			return 0L;
+			return "OK";
         }
 
+    	@Override
         protected void onProgressUpdate(Integer... progress) {
+        	
+        }
+        
+    	@Override
+        protected void onPreExecute(){
+        	progress =  ProgressDialog.show(MainActivity.this, "Posting to yamba server", "Please wait..");
+        	
         }
 
-        protected void onPostExecute(Long result) {
+        protected void onPostExecute(String result) {
+        	progress.dismiss();
+        	Toast.makeText(MainActivity.this, result, Toast.LENGTH_LONG).show();
         }
     }
 }
