@@ -5,19 +5,31 @@ import com.marakana.android.yamba.clientlib.YambaClientException;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnKeyListener;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.EditText;
 import android.os.AsyncTask;
 import android.app.ProgressDialog;
+import android.text.Editable;
+import android.text.TextWatcher;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity  {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        
+        MyTextWatcher watcher = new MyTextWatcher();
+        
+        EditText text = (EditText)findViewById(R.id.editText);
+        text.addTextChangedListener(watcher);
         
         // set proxy to make it working for emulator within local network
         System.setProperty("http.proxyHost",  "proxy-prc.intel.com");
@@ -64,4 +76,35 @@ public class MainActivity extends Activity {
         	Toast.makeText(MainActivity.this, result, Toast.LENGTH_LONG).show();
         }
     }
+    
+    private class MyTextWatcher implements TextWatcher
+    {
+
+		@Override
+		public void afterTextChanged(Editable s) {
+			int count = 140 - s.length();
+			TextView text = (TextView) findViewById(R.id.textView1);
+			text.setText(Integer.toString(count)); 
+			
+			// if we have 50 chars left we change the color to RED
+			if (count < 50)
+				text.setTextColor(Color.RED);
+			else
+				text.setTextColor(Color.GREEN);
+		}
+
+		@Override
+		public void beforeTextChanged(CharSequence s, int start, int count,
+				int after) {
+			// TODO Auto-generated method stub
+		}
+
+		@Override
+		public void onTextChanged(CharSequence s, int start, int before,
+				int count) {
+			//TextView text = (TextView) findViewById(R.id.textView1);
+			//text.setText("Typing.."+s); 
+		}    	
+    }
+
 }
