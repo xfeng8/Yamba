@@ -7,5 +7,11 @@
     <string name="input_msg">Input your tweet</string>
     <string name="post_button">Post update</string>
     <string name="msg_hint">Enter your 140 chars tweet</string>
+    
+    <string name="userNameSummary">Please input your user name</string>
+    <string name="userNameTitle">User Name</string>
+    <string name="passwordSummary">Please input your password</string>
+    <string name="passwordTitle">Password</string>
+    
 
 </resources>
