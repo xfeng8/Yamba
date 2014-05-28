@@ -29,6 +29,8 @@ public final class R {
     public static final class id {
         public static final int Button=0x7f090003;
         public static final int TextView=0x7f090000;
+        public static final int actionServiceStart=0x7f090005;
+        public static final int actionServiceStop=0x7f090006;
         public static final int action_settings=0x7f090004;
         public static final int editText=0x7f090002;
         public static final int textView1=0x7f090001;
@@ -42,6 +44,8 @@ public final class R {
     }
     public static final class string {
         public static final int action_settings=0x7f060002;
+        public static final int action_startservice=0x7f06000a;
+        public static final int action_stopservice=0x7f06000b;
         public static final int app_name=0x7f060000;
         public static final int hello_world=0x7f060001;
         public static final int input_msg=0x7f060003;

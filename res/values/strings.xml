@@ -14,4 +14,7 @@
     <string name="passwordTitle">Password</string>
     
 
+    <string name="action_startservice">Start service</string>
+    <string name="action_stopservice">Stop service</string>
+    
 </resources>
