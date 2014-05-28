@@ -90,14 +90,12 @@ public class MainActivity extends Activity {
 
         	try {
         		 ((YambaApplication)getApplication()).getYambaClient().postStatus(post[0]);
-    		} catch (YambaClientException e) {
+    		} catch (Throwable e) {
     			Log.d("Yamba", "exception happens on postStatus: "+e.getMessage());
-    			if(e.getMessage().equalsIgnoreCase("Unauthorized")){
-    				Log.d("Yamba", "failed to post due to incorrect user/password !");
-    				startActivity(new Intent(MainActivity.this, PrefsActivity.class)); 
-    				return "FAILED: incorrect username or password";
-    			}
-    			return "FAILED";
+
+				//Log.d("Yamba", "failed to post due to incorrect user/password !");
+				startActivity(new Intent(MainActivity.this, PrefsActivity.class)); 
+				return "FAILED: incorrect username or password";
     		}
 			return "OK";
         }

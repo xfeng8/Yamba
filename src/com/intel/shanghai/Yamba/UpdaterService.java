@@ -58,12 +58,12 @@ public class UpdaterService extends Service {
 		@Override
 		public void run() {
 			UpdaterService updaterService = UpdaterService.this;
-			while(updaterService.runFlag){
+			while(UpdaterService.runFlag){
 				try {
 					Thread.sleep(DELAY);
 				} catch (Throwable e) {
 					e.printStackTrace();
-					updaterService.runFlag = false;
+					UpdaterService.runFlag = false;
 				}
 			}
 		}
