@@ -8,11 +8,15 @@
         android:showAsAction="never"
         android:title="@string/action_settings"/>
 
-        <item
+    <item
         android:id="@+id/actionServiceStart"
         android:title="@string/action_startservice"/>
  
-        <item
+    <item
         android:id="@+id/actionServiceStop"
         android:title="@string/action_stopservice"/>
+        
+    <item
+        android:id="@+id/actionServiceRefresh"
+        android:title="@string/action_refreshservice"/>
 </menu>
