@@ -50,6 +50,8 @@ public class MainActivity extends Activity {
 			case R.id.actionServiceStop:
 				stopService(new Intent(this, UpdaterService.class));
 				break;
+			case R.id.actionServiceRefresh:
+				startService(new Intent(this, RefreshService.class));
 		}
     	return true;
 	}

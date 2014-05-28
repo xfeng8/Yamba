@@ -30,6 +30,7 @@
         </activity>
         <activity android:name=".PrefsActivity" />
         <service  android:name=".UpdaterService" />
+        <service  android:name=".RefreshService" />
         
     </application>
 
