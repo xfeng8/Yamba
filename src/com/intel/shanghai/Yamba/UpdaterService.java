@@ -1,5 +1,9 @@
 package com.intel.shanghai.Yamba;
 
+import java.util.List;
+
+import com.marakana.android.yamba.clientlib.YambaClient.Status;
+
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
@@ -29,11 +33,11 @@ public class UpdaterService extends Service {
 	@Override
 	public void onDestroy() {
 		Log.d("Yamba", "Service onDestroy");
-		super.onDestroy();
-		
-		this.runFlag = false;
-		this.updater = null;
+
+		UpdaterService.runFlag = false;
 		this.updater.interrupt();
+		//this.updater = null;
+		super.onDestroy();
 	}
 
 	@Override
@@ -41,9 +45,9 @@ public class UpdaterService extends Service {
 		super.onStartCommand(intent, flags, startId);
 		Log.d("Yamba", "Service onStartCommand");
 		
-		if(!this.runFlag){
-			this.runFlag = true;
-			this.updater.run();
+		if(!UpdaterService.runFlag){
+			UpdaterService.runFlag = true;
+			this.updater.start();
 		}
 		return START_STICKY;
 	}
@@ -57,9 +61,13 @@ public class UpdaterService extends Service {
 		}
 		@Override
 		public void run() {
-			UpdaterService updaterService = UpdaterService.this;
+			//UpdaterService updaterService = UpdaterService.this;
 			while(UpdaterService.runFlag){
 				try {
+					List<Status> timeline = ((YambaApplication)getApplication()).getYambaClient().getTimeline(20);
+					for (Status status : timeline){
+						Log.d("Yamba", status.getUser() + ": " +status.getMessage() + "=" + status.getCreatedAt());
+					}
 					Thread.sleep(DELAY);
 				} catch (Throwable e) {
 					e.printStackTrace();
