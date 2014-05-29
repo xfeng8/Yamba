@@ -41,6 +41,9 @@ public class MainActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int id = item.getItemId();
 		switch(id){
+		    case R.id.action_showpost:
+		    	startActivity(new Intent(this, TimelineActivity.class));
+		    	break;		    	
 			case R.id.action_settings:
 		    	startActivity(new Intent(this, PrefsActivity.class));
 				break;
