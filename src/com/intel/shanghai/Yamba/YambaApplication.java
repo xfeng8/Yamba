@@ -16,6 +16,10 @@ public class YambaApplication extends Application implements OnSharedPreferenceC
 	public void onCreate() {
 		// TODO Auto-generated method stub
 		super.onCreate();
+        // set proxy to make it working for emulator within local network
+        System.setProperty("http.proxyHost",  "proxy-prc.intel.com");
+        System.setProperty("http.proxyPort",  "911");
+        
 		this.prefs = PreferenceManager.getDefaultSharedPreferences(YambaApplication.this);
 		this.prefs.registerOnSharedPreferenceChangeListener(this);
 		Log.d("Yamba", "YambaApplication onCreate");

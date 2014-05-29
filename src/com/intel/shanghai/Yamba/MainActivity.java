@@ -67,10 +67,6 @@ public class MainActivity extends Activity {
         text.addTextChangedListener(watcher);
         
         Log.d("Yamba", "MainActivity - onCreate.");
-        
-        // set proxy to make it working for emulator within local network
-        System.setProperty("http.proxyHost",  "proxy-prc.intel.com");
-        System.setProperty("http.proxyPort",  "911");
     }
 
 
